@@ -1,7 +1,10 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -19,8 +22,9 @@ public class BatimentUI extends JPanel {
   
 	private JTextField nomBavardField;
 	private JButton ajouterBtn;
-	private DefaultListModel<String> bavardListModel;
-	private JList<String> bavardList;
+	//private DefaultListModel<String> bavardListModel;
+	//private JList<String> bavardList;
+	private JPanel bavardsPanel;
 	
 	public BatimentUI(Batiment batiment) {		
 		this.batiment = batiment;
@@ -35,17 +39,36 @@ public class BatimentUI extends JPanel {
 		top.add(ajouterBtn);
 		this.add(top, BorderLayout.NORTH);
 		
-		bavardListModel = new DefaultListModel<>();
-	    bavardList = new JList<>(bavardListModel);
-	    this.add(new JScrollPane(bavardList), BorderLayout.CENTER);
+		//bavardListModel = new DefaultListModel<>();
+	    //bavardList = new JList<>(bavardListModel);
+		//this.add(new JScrollPane(bavardList), BorderLayout.CENTER);
+	    bavardsPanel = new JPanel();
+	    bavardsPanel.setLayout(new BoxLayout(bavardsPanel, BoxLayout.Y_AXIS));
+	    this.add(new JScrollPane(bavardsPanel), BorderLayout.CENTER);
 	    
 	    ajouterBtn.addActionListener(e -> {
             String nom = nomBavardField.getText().trim();
             if (!nom.isEmpty()) {
-                Bavard b = batiment.creerBavard(nom);
-                bavardListModel.addElement(nom);
+                Bavard bavard = batiment.creerBavard(nom);
+                ajouterBavardUI(bavard);
                 nomBavardField.setText("");
             }
         });
+	}
+	
+	public void ajouterBavardUI(Bavard bavard) {
+		JPanel ligne = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel nomLabel = new JLabel(bavard.getNom());
+        JButton toggleBtn = new JButton("🟢");
+        toggleBtn.setForeground(Color.GREEN);
+        JButton openBtn = new JButton("🗨️");
+        
+        ligne.add(nomLabel);
+        ligne.add(toggleBtn);
+        ligne.add(openBtn);
+
+        bavardsPanel.add(ligne);
+        bavardsPanel.revalidate();
+        bavardsPanel.repaint();
 	}
 }
