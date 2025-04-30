@@ -34,9 +34,6 @@ public class Bavard implements PapotageListener {
 
     @Override
     public void onPapotage(PapotageEvent event) {
-        // Reçoit que les messages des autres
-        if (event.getSource() != this) {
-            System.out.println(nom + " a reçu un message : [" + event.getSujet() + "] " + event.getCorps());
-        }
+        System.out.println(nom + " a reçu un message : [" + event.getSujet() + "] " + event.getCorps());
     }
 }

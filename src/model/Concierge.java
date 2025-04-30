@@ -29,14 +29,18 @@ public class Concierge {
     }
 
     public void receivePapotage(PapotageEvent event) {
-    	Bavard author = (Bavard) event.getSource();
-    	
-    	System.out.println(author.getNom() + " a envoyé un message : [" + event.getSujet() + "] " + event.getCorps());
-  
-        for (PapotageListener listener : listeners) {
-	        if (listener != author) {
-	        	listener.onPapotage(event);
-	        }
-        }
+    	try {    		
+    		Bavard author = (Bavard) event.getSource();
+    		
+    		System.out.println(author.getNom() + " a envoyé un message : [" + event.getSujet() + "] " + event.getCorps());
+    		
+    		for (PapotageListener listener : listeners) {
+    			if (listener != author) {
+    				listener.onPapotage(event);
+    			}
+    		}
+    	} catch (Exception e) {
+    		System.out.println("Seul un bavard peu envoyer un message.");
+    	}
     }
 }
