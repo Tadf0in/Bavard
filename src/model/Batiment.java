@@ -21,21 +21,44 @@ public class Batiment {
         return bavards;
     }
     
-    // Setters
-    public void setConcierge(Concierge concierge) {
-    	this.concierge = concierge;
-    	
-    	for (PapotageListener listener : this.bavards) {
-            this.concierge.addListener(listener);
-        }
+    // Méthodes
+
+    public void Connecter(Bavard bavard) {
+    	bavard.seConnecter(this.concierge);
     }
     
-    // Méthodes
+    public void Deconnecter(Bavard bavard) {
+    	bavard.seDeconnecter();
+    }
+    
+    public void ConnecterAll() {
+    	for (Bavard bavard : bavards) {
+    		Connecter(bavard);
+    	}
+    }
+    
+    public void DeconnecterAll() {
+    	for (Bavard bavard : bavards) {
+    		Deconnecter(bavard);
+    	}
+    }
+    
+    public Concierge creerConcierge(String nom) {
+    	Concierge concierge = new Concierge(nom);
+    	
+    	for (PapotageListener listener : this.bavards) {
+            concierge.addListener(listener);
+        }
+    	
+    	this.concierge = concierge;
+    	return concierge;
+    }
     
     public Bavard creerBavard(String nom) {
         Bavard bavard = new Bavard(nom);
+        Connecter(bavard); // Connécté par défaut
+        
         this.bavards.add(bavard);
-        bavard.seConnecter(this.concierge);
         return bavard;
     }
 }
