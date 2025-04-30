@@ -60,8 +60,20 @@ public class BatimentUI extends JPanel {
 		JPanel ligne = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel nomLabel = new JLabel(bavard.getNom());
         JButton toggleBtn = new JButton("🟢");
-        toggleBtn.setForeground(Color.GREEN);
         JButton openBtn = new JButton("🗨️");
+        
+        toggleBtn.setForeground(Color.GREEN);
+        toggleBtn.addActionListener(e -> {
+            if (bavard.isConnected()) {
+                batiment.deconnecter(bavard);
+                toggleBtn.setForeground(Color.RED);
+            } else {
+                batiment.connecter(bavard);
+                toggleBtn.setForeground(Color.GREEN);
+            }
+        });
+
+        openBtn.addActionListener(e -> new BavardUI(bavard).setVisible(true));
         
         ligne.add(nomLabel);
         ligne.add(toggleBtn);

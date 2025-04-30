@@ -23,23 +23,23 @@ public class Batiment {
     
     // Méthodes
 
-    public void Connecter(Bavard bavard) {
+    public void connecter(Bavard bavard) {
     	bavard.seConnecter(this.concierge);
     }
     
-    public void Deconnecter(Bavard bavard) {
+    public void deconnecter(Bavard bavard) {
     	bavard.seDeconnecter();
     }
     
-    public void ConnecterAll() {
+    public void connecterAll() {
     	for (Bavard bavard : bavards) {
-    		Connecter(bavard);
+    		connecter(bavard);
     	}
     }
     
-    public void DeconnecterAll() {
+    public void deconnecterAll() {
     	for (Bavard bavard : bavards) {
-    		Deconnecter(bavard);
+    		deconnecter(bavard);
     	}
     }
     
@@ -56,7 +56,7 @@ public class Batiment {
     
     public Bavard creerBavard(String nom) {
         Bavard bavard = new Bavard(nom);
-        Connecter(bavard); // Connécté par défaut
+        connecter(bavard); // Connécté par défaut
         
         this.bavards.add(bavard);
         return bavard;

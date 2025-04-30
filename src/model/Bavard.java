@@ -26,6 +26,10 @@ public class Bavard implements PapotageListener {
     	this.concierge.removeListener(this);
     	this.concierge = null;
     }
+    
+    public boolean isConnected() {
+    	return this.concierge != null;
+    }
 
     public void envoyerMessage(String sujet, String corps) {
         PapotageEvent event = new PapotageEvent(this, sujet, corps);
