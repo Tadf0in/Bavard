@@ -19,12 +19,15 @@ public class BatimentUI extends JPanel {
 	
 	private Batiment batiment;
   
+	private MainUI mainui;
+	
 	private JTextField nomBavardField;
 	private JButton ajouterBtn;
 	private JPanel bavardsPanel;
 	
-	public BatimentUI(Batiment batiment) {		
+	public BatimentUI(Batiment batiment, MainUI mainui) {		
 		this.batiment = batiment;
+		this.mainui = mainui;
 		
 		this.setLayout(new BorderLayout());
 		
@@ -67,7 +70,7 @@ public class BatimentUI extends JPanel {
             }
         });
 
-        openBtn.addActionListener(e -> new BavardUI(bavard).setVisible(true));
+        openBtn.addActionListener(e -> new BavardUI(bavard, this.mainui).setVisible(true));
         
         ligne.add(nomLabel);
         ligne.add(toggleBtn);

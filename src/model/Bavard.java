@@ -1,33 +1,43 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Bavard implements PapotageListener {
     // Attributs
 	private String nom;
     private Concierge concierge;
+    private List<Map<String, String>> messagesRecus;
 
     // Constructeur
     public Bavard(String nom) {
         this.nom = nom;
+        this.messagesRecus = new ArrayList<>();
     }
     
     // Getters
     public String getNom() {
         return nom;
     }
+    public List<Map<String, String>> getMessagesRecus() {
+    	return this.messagesRecus;
+    }
 
     // Méthodes
     
     public void seConnecter(Concierge concierge) {
         this.concierge = concierge;     	
-    	concierge.addListener(this);
     	OnLineBavardEvent event = new OnLineBavardEvent(this);
-    	this.concierge.receivePapotage(event);
+    	this.concierge.onPapotage(event);
+    	concierge.addListener(this);
     }
     
     public void seDeconnecter() {
-    	OffLineBavardEvent event = new OffLineBavardEvent(this);
-    	this.concierge.receivePapotage(event);
     	this.concierge.removeListener(this);
+    	OffLineBavardEvent event = new OffLineBavardEvent(this);
+    	this.concierge.onPapotage(event);
     	this.concierge = null;
     }
     
@@ -37,11 +47,21 @@ public class Bavard implements PapotageListener {
 
     public void envoyerMessage(String sujet, String corps) {
         PapotageEvent event = new PapotageEvent(this, sujet, corps);
-        this.concierge.receivePapotage(event);
+        this.concierge.onPapotage(event);
     }
 
     @Override
     public void onPapotage(PapotageEvent event) {
         System.out.println(nom + " a reçu un message : [" + event.getSujet() + "] " + event.getCorps());
+        
+        Map<String, String> message = new HashMap<>();
+        if (event.getSource() instanceof Bavard) { 
+			message.put("auteur", ((Bavard) event.getSource()).getNom());
+		} else {
+			message.put("auteur", "");
+		}
+        message.put("sujet", event.getSujet());
+        message.put("contenu", event.getCorps());
+        this.messagesRecus.add(message);
     }
 }

@@ -5,7 +5,7 @@ public class OffLineBavardEvent extends PapotageEvent {
     private Bavard bavard;
 
     public OffLineBavardEvent(Bavard bavard) {
-    	super(bavard, "Déconnexion", bavard.getNom() + " s'est déconnecté(e)");
+    	super("", "Déconnexion", bavard.getNom() + " s'est déconnecté(e)");
         this.bavard = bavard;
     }
 
