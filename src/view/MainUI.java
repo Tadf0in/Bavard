@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import model.Batiment;
 import model.Concierge;
 
+@SuppressWarnings("serial")
 class MainUI extends JFrame {
 	
 	private Batiment batiment;

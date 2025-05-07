@@ -1,10 +1,10 @@
 package view;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import model.Concierge;
 
+@SuppressWarnings("serial")
 public class ConciergeUI extends JPanel {
 	
 	private Concierge concierge;

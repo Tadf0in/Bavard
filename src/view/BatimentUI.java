@@ -5,10 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -16,14 +14,13 @@ import javax.swing.JTextField;
 import model.Batiment;
 import model.Bavard;
 
+@SuppressWarnings("serial")
 public class BatimentUI extends JPanel {
 	
 	private Batiment batiment;
   
 	private JTextField nomBavardField;
 	private JButton ajouterBtn;
-	//private DefaultListModel<String> bavardListModel;
-	//private JList<String> bavardList;
 	private JPanel bavardsPanel;
 	
 	public BatimentUI(Batiment batiment) {		
@@ -39,9 +36,6 @@ public class BatimentUI extends JPanel {
 		top.add(ajouterBtn);
 		this.add(top, BorderLayout.NORTH);
 		
-		//bavardListModel = new DefaultListModel<>();
-	    //bavardList = new JList<>(bavardListModel);
-		//this.add(new JScrollPane(bavardList), BorderLayout.CENTER);
 	    bavardsPanel = new JPanel();
 	    bavardsPanel.setLayout(new BoxLayout(bavardsPanel, BoxLayout.Y_AXIS));
 	    this.add(new JScrollPane(bavardsPanel), BorderLayout.CENTER);
