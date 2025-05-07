@@ -20,9 +20,13 @@ public class Bavard implements PapotageListener {
     public void seConnecter(Concierge concierge) {
         this.concierge = concierge;     	
     	concierge.addListener(this);
+    	OnLineBavardEvent event = new OnLineBavardEvent(this);
+    	this.concierge.receivePapotage(event);
     }
     
     public void seDeconnecter() {
+    	OffLineBavardEvent event = new OffLineBavardEvent(this);
+    	this.concierge.receivePapotage(event);
     	this.concierge.removeListener(this);
     	this.concierge = null;
     }
