@@ -10,9 +10,9 @@ import javax.swing.JPanel;
 import model.Bavard;
 import model.ThemesEnum;
 
+@SuppressWarnings("serial")
 public class ThemesUI extends JPanel {
 	private Bavard bavard;
-	
     private EnumMap<ThemesEnum, JCheckBox> checkBoxes;
 	
 	public ThemesUI(Bavard bavard) {
@@ -26,7 +26,7 @@ public class ThemesUI extends JPanel {
 
         for (ThemesEnum theme : ThemesEnum.values()) {
             JCheckBox checkBox = new JCheckBox(theme.toString());
-            checkBox.setSelected(bavard.getThemesSuivis().contains(theme));
+            checkBox.setSelected(this.bavard.getThemesSuivis().contains(theme));
             checkBoxes.put(theme, checkBox);
             this.add(checkBox);
 

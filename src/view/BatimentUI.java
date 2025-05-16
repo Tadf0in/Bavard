@@ -3,6 +3,10 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,6 +24,7 @@ public class BatimentUI extends JPanel {
 	private Batiment batiment;
   
 	private MainUI mainui;
+	private Map<Bavard, BavardUI> bavardUIs = new HashMap<>();
 	
 	private JTextField nomBavardField;
 	private JButton ajouterBtn;
@@ -28,6 +33,7 @@ public class BatimentUI extends JPanel {
 	public BatimentUI(Batiment batiment, MainUI mainui) {		
 		this.batiment = batiment;
 		this.mainui = mainui;
+		this.bavardUIs = new HashMap<>();
 		
 		this.setLayout(new BorderLayout());
 		
@@ -60,19 +66,31 @@ public class BatimentUI extends JPanel {
         JButton toggleBtn = new JButton("🟢");
         JButton openBtn = new JButton("🗨️");
         
+        bavardUIs.put(bavard, new BavardUI(bavard, this.mainui));
+        
         toggleBtn.setForeground(Color.GREEN);
         toggleBtn.addActionListener(e -> {
             if (bavard.isConnected()) {
                 batiment.deconnecter(bavard);
                 toggleBtn.setForeground(Color.RED);
+                bavardUIs.get(bavard).dispose();
             } else {
                 batiment.connecter(bavard);
                 toggleBtn.setForeground(Color.GREEN);
             }
             mainui.refreshMessagesUIs();
         });
-
-        openBtn.addActionListener(e -> new BavardUI(bavard, this.mainui).setVisible(true));
+        
+        openBtn.addActionListener(e -> {
+            BavardUI ui = bavardUIs.get(bavard);
+            if (ui.isVisible()) {
+            	ui.toFront(); // remonter la fenêtre si déjà ouverte            	
+            } else {
+            	if (bavard.isConnected()) {            		
+            		ui.setVisible(true);
+            	}
+            }
+        });
         
         ligne.add(nomLabel);
         ligne.add(toggleBtn);

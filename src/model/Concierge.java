@@ -24,6 +24,9 @@ public class Concierge implements PapotageListener {
     public List<Map<String, String>> getMessagesRecus() {
     	return this.messagesRecus;
     }
+    public List<PapotageListener> getListeners() {
+    	return this.listeners;
+    }
 	public List<ThemesEnum> getThemesSuivis() {
 		return null;
 	}

@@ -12,8 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 
 import model.Bavard;
+import model.PapotageListener;
 import model.ThemesEnum;
 
 @SuppressWarnings("serial")
@@ -23,6 +26,7 @@ public class EnvoyerMessageUI extends JPanel {
 	
 	private JTextField sujet;
     private JComboBox<ThemesEnum> theme;
+    private JComboBox<Object> destinataire;
 	private JTextArea contenu;
 	private JButton envoyer;
 	
@@ -34,35 +38,53 @@ public class EnvoyerMessageUI extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         
         // Sujet
-        JLabel sujetLabel = new JLabel("Sujet :");
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.WEST;
-        panel.add(sujetLabel, gbc);
+        panel.add(new JLabel("Sujet :"), gbc);
 
         sujet = new JTextField(20);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy++;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(sujet, gbc);
 
         // Theme
-        JLabel themeLabel = new JLabel("Thème :");
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.fill = GridBagConstraints.NONE;
-        panel.add(themeLabel, gbc);
+        gbc.gridy++;
+        gbc.fill = GridBagConstraints.WEST;
+        panel.add(new JLabel("Thème :"), gbc);
 
         theme = new JComboBox<>(ThemesEnum.values());
-        gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy++;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(theme, gbc);
         
+        // Destinataire
+        gbc.gridy++;
+        gbc.fill = GridBagConstraints.WEST;
+        panel.add(new JLabel("Destinataire :"), gbc);
+
+        destinataire = new JComboBox<>();
+        destinataire.addItem("Général");
+        destinataire.addPopupMenuListener(new PopupMenuListener() {
+            @Override
+            public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
+            	destinataire.removeAllItems();
+                destinataire.addItem("Général");
+                for (PapotageListener b : bavard.getConcierge().getListeners()) {
+                    if (!b.equals(bavard)) {
+                        destinataire.addItem(b);
+                    }
+                }
+            }
+            public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {}
+            public void popupMenuCanceled(PopupMenuEvent e) {}
+        });
+        gbc.gridy++;
+        panel.add(destinataire, gbc);
+        
         // Contenu
         JLabel contenuLabel = new JLabel("Contenu :");
-        gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy++;
         gbc.anchor = GridBagConstraints.WEST;
         panel.add(contenuLabel, gbc);
 
@@ -70,14 +92,12 @@ public class EnvoyerMessageUI extends JPanel {
         contenu.setLineWrap(true);
         contenu.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(contenu);
-        gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy++;
         gbc.fill = GridBagConstraints.BOTH;
         panel.add(scrollPane, gbc);
 
         envoyer = new JButton("Envoyer");
-        gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy++;
         gbc.gridwidth = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel.add(envoyer, gbc);
@@ -89,13 +109,21 @@ public class EnvoyerMessageUI extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String sujetText = sujet.getText();
                 String contenuText = contenu.getText();
-                ThemesEnum themeText = (ThemesEnum) theme.getSelectedItem();
+                ThemesEnum themeEnum = (ThemesEnum) theme.getSelectedItem();
+                Object destinataireObject = destinataire.getSelectedItem();
 
-                bavard.envoyerMessage(sujetText, contenuText, themeText);
-                mainui.refreshMessagesUIs();
+                if ("Général".equals(destinataireObject)) {
+                    bavard.envoyerMessage(sujetText, contenuText, themeEnum);
+                } else if (destinataireObject instanceof Bavard) {
+                    bavard.directMessage(sujetText, contenuText, themeEnum, (Bavard) destinataireObject);
+                }
 
                 sujet.setText("");
                 contenu.setText("");
+                theme.setSelectedIndex(0);
+                destinataire.setSelectedIndex(0);
+                
+                mainui.refreshMessagesUIs();
             }
         });
 	}

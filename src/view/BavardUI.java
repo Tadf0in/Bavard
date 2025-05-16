@@ -1,7 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,8 +19,6 @@ public class BavardUI extends JFrame {
 		this.setTitle("Bavard - " + bavard.getNom());
 		this.setSize(750, 500);
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		// this.setLayout(new GridLayout(1, 3));
 		
 		EnvoyerMessageUI envoyer = new EnvoyerMessageUI(this.bavard, mainui);
 		this.getContentPane().add(envoyer, BorderLayout.WEST);

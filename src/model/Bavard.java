@@ -24,6 +24,9 @@ public class Bavard implements PapotageListener {
     public String getNom() {
         return nom;
     }
+    public Concierge getConcierge() {
+    	return this.concierge;
+    }
     public List<Map<String, String>> getMessagesRecus() {
     	return this.messagesRecus;
     }
@@ -55,6 +58,13 @@ public class Bavard implements PapotageListener {
         PapotageEvent event = new PapotageEvent(this, sujet, corps, theme);
         this.concierge.onPapotage(event);
     }
+    
+    public void directMessage(String sujet, String corps, ThemesEnum theme, Bavard destinataire) {
+    	if (destinataire.getThemesSuivis().contains(theme)) {   
+	    	PapotageEvent event = new PapotageEvent(this, sujet, corps, theme);
+	        destinataire.onPapotage(event);
+    	}
+    }
 
     @Override
     public void onPapotage(PapotageEvent event) {
@@ -77,5 +87,9 @@ public class Bavard implements PapotageListener {
     }
     public void removeTheme(ThemesEnum theme) {
     	this.themesSuivis.remove(theme);
+    }
+    
+    public String toString() {
+    	return this.nom;
     }
 }
