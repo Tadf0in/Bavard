@@ -7,12 +7,14 @@ public class PapotageEvent extends EventObject {
 	// Attributs
 	private String sujet;
     private String corps;
+    private ThemesEnum theme;
 
     // Constructeur
-    public PapotageEvent(Object source, String sujet, String corps) {
+    public PapotageEvent(Object source, String sujet, String corps, ThemesEnum theme) {
         super(source);
         this.sujet = sujet;
         this.corps = corps;
+        this.theme = theme;
     }
     
     // Getters
@@ -21,5 +23,8 @@ public class PapotageEvent extends EventObject {
     }
     public String getCorps() {
         return corps;
+    }
+    public ThemesEnum getTheme() {
+    	return theme;
     }
 }

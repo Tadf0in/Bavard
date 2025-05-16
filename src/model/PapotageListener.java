@@ -8,4 +8,5 @@ public interface PapotageListener extends EventListener {
     void onPapotage(PapotageEvent event);
     String getNom();
     List<Map<String, String>> getMessagesRecus();
+    List<ThemesEnum> getThemesSuivis();
 }

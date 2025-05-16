@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +11,13 @@ public class Bavard implements PapotageListener {
 	private String nom;
     private Concierge concierge;
     private List<Map<String, String>> messagesRecus;
+    private List<ThemesEnum> themesSuivis;
 
     // Constructeur
     public Bavard(String nom) {
         this.nom = nom;
         this.messagesRecus = new ArrayList<>();
+        this.themesSuivis = new ArrayList<>(Arrays.asList(ThemesEnum.values()));
     }
     
     // Getters
@@ -24,7 +27,10 @@ public class Bavard implements PapotageListener {
     public List<Map<String, String>> getMessagesRecus() {
     	return this.messagesRecus;
     }
-
+    public List<ThemesEnum> getThemesSuivis() {
+    	return this.themesSuivis;
+    }
+    
     // Méthodes
     
     public void seConnecter(Concierge concierge) {
@@ -45,8 +51,8 @@ public class Bavard implements PapotageListener {
     	return this.concierge != null;
     }
 
-    public void envoyerMessage(String sujet, String corps) {
-        PapotageEvent event = new PapotageEvent(this, sujet, corps);
+    public void envoyerMessage(String sujet, String corps, ThemesEnum theme) {
+        PapotageEvent event = new PapotageEvent(this, sujet, corps, theme);
         this.concierge.onPapotage(event);
     }
 
@@ -62,6 +68,14 @@ public class Bavard implements PapotageListener {
 		}
         message.put("sujet", event.getSujet());
         message.put("contenu", event.getCorps());
+        message.put("theme", event.getTheme().toString());
         this.messagesRecus.add(message);
+    }
+    
+    public void addTheme(ThemesEnum theme) {
+    	this.themesSuivis.add(theme);
+    }
+    public void removeTheme(ThemesEnum theme) {
+    	this.themesSuivis.remove(theme);
     }
 }

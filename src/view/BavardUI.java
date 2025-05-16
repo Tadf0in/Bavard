@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import model.Bavard;
 
+@SuppressWarnings("serial")
 public class BavardUI extends JFrame {
 	
 	private Bavard bavard;

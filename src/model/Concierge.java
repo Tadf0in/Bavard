@@ -24,6 +24,9 @@ public class Concierge implements PapotageListener {
     public List<Map<String, String>> getMessagesRecus() {
     	return this.messagesRecus;
     }
+	public List<ThemesEnum> getThemesSuivis() {
+		return null;
+	}
     
     // Méthodes
     
@@ -51,21 +54,25 @@ public class Concierge implements PapotageListener {
     		
     		String sujet = event.getSujet();
     		String corps = event.getCorps();
+    		ThemesEnum theme = event.getTheme();
     		
     		message += "[" + sujet + "] " + corps;
     		System.out.println(message);
     		            
-    		messageMap.put("sujet", event.getSujet());
-    		messageMap.put("contenu", event.getCorps());
+    		messageMap.put("sujet", sujet);
+    		messageMap.put("contenu", corps);
+    		messageMap.put("theme", theme.toString());
             this.messagesRecus.add(messageMap);
     		
     		for (PapotageListener listener : listeners) {
     			if (listener != auteur) {
-    				listener.onPapotage(event);
+    				if (listener.getThemesSuivis().contains(theme)) {    					
+    					listener.onPapotage(event);
+    				}
     			}
     		}
     	} catch (Exception e) {
-    		System.out.println("Impossible d'envoyer le message.");
+    		System.out.println("Impossible d'envoyer le message." + e);
     	}
     }
 }

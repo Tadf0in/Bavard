@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import model.Batiment;
-import model.Bavard;
 import model.Concierge;
 
 @SuppressWarnings("serial")
