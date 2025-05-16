@@ -33,9 +33,6 @@ class MainUI extends JFrame {
 		BatimentUI batimentUI = new BatimentUI(batiment, this);
 		this.getContentPane().add(batimentUI);
 		
-		Bavard bob = batiment.creerBavard("Bob");
-		bob.envoyerMessage("Réponse", "Salut !");
-		
 		ConciergeUI conciergeUI = new ConciergeUI(concierge, this);
 		this.getContentPane().add(conciergeUI);
 	}

@@ -50,6 +50,7 @@ public class BatimentUI extends JPanel {
                 ajouterBavardUI(bavard);
                 nomBavardField.setText("");
             }
+            mainui.refreshMessagesUIs();
         });
 	}
 	
@@ -68,6 +69,7 @@ public class BatimentUI extends JPanel {
                 batiment.connecter(bavard);
                 toggleBtn.setForeground(Color.GREEN);
             }
+            mainui.refreshMessagesUIs();
         });
 
         openBtn.addActionListener(e -> new BavardUI(bavard, this.mainui).setVisible(true));

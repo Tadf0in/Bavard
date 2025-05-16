@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
@@ -22,6 +23,7 @@ public class MessagesUI extends JPanel {
 		mainui.addMessagesUI(this);
 		
 		messageContainer = new JPanel();
+		messageContainer.setPreferredSize(new Dimension(300, 500));
         messageContainer.setLayout(new BoxLayout(messageContainer, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(messageContainer);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -31,8 +33,9 @@ public class MessagesUI extends JPanel {
 	}
 	
 	public void refreshMessages() {
+		messageContainer.removeAll();
 		for (Map<String, String> message: this.listener.getMessagesRecus()) {
-			String messageText = "<html><b>" + message.get("auteur") + "</b>: " + message.get("contenu") + "</html>";
+			String messageText = message.get("auteur") + ": [" + message.get("sujet") + "] " + message.get("contenu");
 	        JLabel messageLabel = new JLabel(messageText);
 	        messageContainer.add(messageLabel);
 		}

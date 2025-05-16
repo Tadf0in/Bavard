@@ -27,9 +27,6 @@ public class BavardUI extends JFrame {
 		MessagesUI messages = new MessagesUI(this.bavard, mainui);
 		this.getContentPane().add(messages);
 		
-		MessagesUI message = new MessagesUI(this.bavard, mainui);
-		this.getContentPane().add(message);
-		
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             @Override
