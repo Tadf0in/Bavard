@@ -23,7 +23,7 @@ public class MessagesUI extends JPanel {
 		mainui.addMessagesUI(this);
 		
 		messageContainer = new JPanel();
-		messageContainer.setPreferredSize(new Dimension(300, 500));
+		messageContainer.setPreferredSize(new Dimension(350, 500));
         messageContainer.setLayout(new BoxLayout(messageContainer, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(messageContainer);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
